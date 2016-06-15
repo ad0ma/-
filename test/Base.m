@@ -43,14 +43,12 @@
             //判断转换后的点是不是在目标view上
             if ([view pointInside:viewPoint withEvent:event]) {
                 
-                NSLog(@"%@",NSStringFromClass(view.class));
                 
-                return view;
+                return [view hitTest:viewPoint withEvent:event];
             }
         }
 
     }
-    
     
     return self;
 }
