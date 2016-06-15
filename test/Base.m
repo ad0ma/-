@@ -25,22 +25,22 @@
     //触摸点坐标转换，从当前view转换到目标view
     CGPoint viewPoint = [self convertPoint:point toView:top];
     
-    if (![top hitTest:viewPoint withEvent:event]) {
+    id responder = [top hitTest:viewPoint withEvent:event];
+    
+    if (responder) return responder;
         
-        NSLog(@"触摸点在椭圆外");
+    NSLog(@"触摸点在椭圆外");
+    
+    //遍历椭圆下面的view
+    for (UIView *view in self.subviews) {
         
-        //遍历椭圆下面的view
-        for (UIView *view in self.subviews) {
-
-            //触摸点坐标转换，从当前view转换到目标view
-            viewPoint = [self convertPoint:point toView:view];
+        //触摸点坐标转换，从当前view转换到目标view
+        viewPoint = [self convertPoint:point toView:view];
+        
+        //判断转换后的点是不是在目标view上
+        if ([view pointInside:viewPoint withEvent:event]) {
             
-            //判断转换后的点是不是在目标view上
-            if ([view pointInside:viewPoint withEvent:event]) {
-                
-                
-                return [view hitTest:viewPoint withEvent:event];
-            }
+            return [view hitTest:viewPoint withEvent:event];
         }
     }
     
