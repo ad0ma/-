@@ -43,6 +43,20 @@
 {
     if (CGPathContainsPoint(path.CGPath, NULL, point, NO)) {
         
+        //如何保证只推出一次
+        UINavigationController *navi = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        
+        //可根据类判断、title判断
+        if (![navi.topViewController.title  isEqual: @"推出视图"]) {
+            UIViewController *pushVC = [UIViewController new];
+            
+            pushVC.view.backgroundColor = [UIColor redColor];
+            
+            pushVC.title = @"推出视图";
+            
+            [navi pushViewController:pushVC animated:YES];
+        }
+        
         NSLog(@"触摸点在椭圆内");
         
         return self;
