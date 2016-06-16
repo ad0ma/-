@@ -10,6 +10,7 @@
 
 @implementation Base
 
+//iOS7之后该方法会调用两次，开始和返回。iOS7之前调用三次，最后一次时间戳不同。
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     if (![self pointInside:point withEvent:event]) {
@@ -33,6 +34,8 @@
     
     //遍历椭圆下面的view
     for (UIView *view in self.subviews) {
+        
+        NSLog(@"判读是不是%@",NSStringFromClass(view.class));
         
         //触摸点坐标转换，从当前view转换到目标view
         viewPoint = [self convertPoint:point toView:view];
